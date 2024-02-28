@@ -1,0 +1,59 @@
+﻿@model List<TrainingViewModel>
+
+
+<section class="container">
+    <button onclick="location.href='@Url.Action("Availability", "Trainer")'" class="btn btn-primary btn-rounded">Dodaj dostępność</button>
+    <div class="row" >
+        <div class="overflow-auto" style="max-height:80vh" id='calendar'></div>
+    
+    
+       
+    </div>
+</section>
+
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Szczegóły wydarzenia</h5>
+                
+            </div>
+            <div class="modal-body" id="eventDetails">
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'pl',
+                initialView: 'timeGridDay',
+                events: '@Url.Action("GetTrainings", "Trainer")',
+                eventClick: function (info) {
+                    var start = new Date(info.event.startStr);
+                    var end = new Date(info.event.endStr);
+                    var startTime = start.toLocaleTimeString([]);
+                    var endTime = end.toLocaleTimeString([]);
+                    $('#eventDetails').text('Szczegóły wydarzenia: ' + info.event.title);
+                    $('#eventModalLabel').text('Rozpoczęcie: ' + startTime + ', Zakończenie: ' + endTime);
+                    $('#eventModal').modal('show');
+                },
+                
+            });
+            calendar.render();
+        });
+
+        $('#close').click(function () {
+            $('#eventModal').modal('hide');
+        });
+
+    </script>
+}

@@ -1,0 +1,100 @@
+﻿@model PersonalTrainerI.Models.AdminViewModel
+<style>
+    
+  *{   
+        color:whitesmoke;
+  }
+</style>
+<section class="container-fluid p-4">
+    <div class="row gap-3">
+
+        <div class="col-sm rounded overflow-auto" style="background-color:#0B0B0B; max-height:50vh">
+              <h2>Zweryfikowani trenerzy</h2>
+              <table class="table ">
+                <thead>
+                    <tr>
+                        <th>E-mail</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Typ Treningu</th>
+                        <th>Ilość treningów</th>
+                        <th>Siłownia</th>
+                        <th>Szczegóły</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var trainer in Model.PersonalTrainers.Where(t => t.IsVerified))
+                    {
+                        <tr>
+                            <td>@trainer.User</td>
+                            <td>@trainer.FirstName</td>
+                            <td>@trainer.LastName</td>
+                            <td>@trainer.TrainingType</td>
+                            <td>@trainer.Training.Count</td>
+                            <td>
+                               @foreach (var gymTrainer in trainer.GymTrainers.Select(t=>t.Gym))
+                                {
+                                    <p>@gymTrainer.GymName</p>
+                                }
+                            </td>
+                             <td> 
+                                 
+                                 <a href="@Url.Action("Details", "Admin", new { id = trainer.ID })" class="btn btn-success">Szczegóły</a>
+
+                                                <form method="post" action="@Url.Action("Delete", "Admin")">
+                                                    <input type="hidden" name="id" value="@trainer.ID" />
+                                                    <input type="submit" value="Usuń" class="btn btn-danger" />
+                                                </form>
+                               
+                             </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+        <div class="col-sm rounded overflow-auto" style="background-color:#0B0B0B; max-height:50vh">
+        <h2>Niezweryfikowani trenerzy</h2>
+
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Trening</th>
+                    <th>Siłownia</th>
+                    <th>Akcja</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var trainer in Model.PersonalTrainers.Where(t => !t.IsVerified))
+                {
+                    <tr>
+                        <td>@trainer.User.Id</td>
+                        <td>@trainer.FirstName</td>
+                        <td>@trainer.LastName</td>
+                        <td>@trainer.TrainingType</td>
+                        <td>
+                            @foreach (var gymTrainer in trainer.GymTrainers.Select(t=>t.Gym))
+                            {
+                                <p>@gymTrainer.GymName</p>
+                            }
+                        </td>
+                        <td>
+                             <form method="post" action="@Url.Action("Verify", "Admin")">
+                                <input type="hidden" name="id" value="@trainer.ID" />
+                                <input type="submit" value="Zatwierdź" class="btn btn-success" />
+                            </form>
+                            <form method="post" action="@Url.Action("Delete", "Admin")">
+                                <input type="hidden" name="id" value="@trainer.ID" />
+                                <input type="submit" value="Usuń" class="btn btn-danger" />
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </div>
+</section>
+

@@ -1,0 +1,260 @@
+﻿@model PersonalTrainerI.Models.GymAndAvailabilityViewModel
+<style>
+    .select2-selection__choice{
+        color:black;
+    }
+</style>
+<button onclick="location.href='@Url.Action("Index", "Trainer")'" class="btn btn-primary btn-rounded m-3">Cofnij</button>
+
+<section class="container-fluid row gap-3 text-white">
+    <!-- Pierwszy div -->
+    <div class="col-sm rounded overflow-auto" style="background-color:#0B0B0B;height:50vh">
+        <h2>Twoja dostępność</h2>
+        <table class="table text-white">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Godzina rozpoczęcia</th>
+                    <th>Godzina zakończenia</th>
+                    <th>Akcja</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Availabilitie)
+                {
+                    <tr>
+                        <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                        <td>@item.StartTime</td>
+                        <td>@item.EndTime</td>
+                        @if (item.Date > DateTime.Now)
+                        {
+                            <td>
+                                <form method="post" action="@Url.Action("Delete", "Trainer")">
+                                    <input type="hidden" name="id" value="@item.ID" />
+                                    <input type="submit" value="Usuń" class="btn btn-danger" />
+                                </form>
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Drugi div -->
+    <div class="col">
+        <div class="col-sm mb-3">
+            <div class="row">
+                <div class="col-sm rounded p-1" style="background-color:#0B0B0B;">
+                    <h2 class="mb-0">Dodaj dostępność</h2>
+                    <form asp-action="Create">
+                        <div class="row" style="max-width:25%">
+                            <div class="col">
+                                <label for="date">Data:</label>
+                                <input type="date" id="date" name="date" required class="form-control">
+                            </div>
+                        </div>
+                        <div id="time">
+                        <div class="row mb-1">
+                            <div class="col" style="max-width:25%">
+                                <label for="startTime">Godzina rozpoczęcia:</label>
+                                <input type="time" id="startTime" name="startTime" required class="form-control">
+                            </div>
+
+                            <div class="col" style="max-width:25%">
+                                <label for="endTime">Godzina zakończenia:</label>
+                                <input type="time" id="endTime" name="endTime" required class="form-control">
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="submit" class="btn btn-primary" value="Dodaj dostępność">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="height:66%">
+        <!-- Drugi div wewnątrz drugiego diva -->
+            <div class="col-sm rounded me-3 overflow-auto" style="background-color:#0B0B0B;">
+            <h2>Moje siłownie</h2>
+            <table class="table text-white">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Miasto</th>
+                        <th>Ulica</th>
+                        <th>Akcja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.GymTrainer)
+                    {
+                        <tr>
+                            <td>@item.Gym.GymName</td>
+                            <td>@item.Gym.City</td>
+                            <td>@item.Gym.Street @item.Gym.StreetNumber</td>
+                            <td>
+                                <form asp-action="DeleteGym">
+                                    <input type="hidden" name="gtid" value="@item.ID" />
+                                    <input type="submit" value="Usuń" class="btn btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Trzeci div wewnątrz drugiego diva -->
+            <div class="col-sm rounded" style="background-color:#0B0B0B;">
+           <h2>Dodaj siłownie</h2>
+                     <form asp-action="AddGymTrainer">
+                    <div class="form-group">
+                               
+                                <select   name="gymtr" multiple="multiple" class="form-control text-black" id="form-controlgym" style="max-width:80%; max-height:fit-content;">
+                                         @{
+                                         @foreach (var gymtr in Model.Gyms)
+                                            {
+                                                <option value="@gymtr.ID">@gymtr.GymName</option>
+                                            }
+                                        }
+                                </select>
+                            </div>
+                            <div class="row m-3">
+                                 <button type="button" class="btn btn-secondary mb-2" data-toggle="modal" data-target="#addGymModal">Dodaj nową siłownię</button>
+                                <input class="btn btn-primary" type="submit" value="Dodaj do konta"/>
+                            </div>
+                    </form>
+               
+
+        </div>
+        </div>
+    </div>
+</section>
+<div class="modal" id="addGymModal" tabindex="-1" role="dialog" aria-labelledby="addGymModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGymModalLabel">Dodaj nową siłownię</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <form asp-controller="Trainer" asp-action="AddNewGym" id="addGymForm" method="post">
+                    <div class="form-group2">
+                        <label asp-for="Gym.GymName">Nazwa siłowni</label>
+                        <input asp-for="Gym.GymName" class="form-control" name="GymName" required>
+                    </div>
+                    <div class="form-group2">
+                        <label asp-for="Gym.Street">Ulica</label>
+                        <input asp-for="Gym.Street" class="form-control" name="Street" required>
+                        <span asp-validation-for="Gym.Street" class="text-danger"></span>
+                    </div>
+                    <div class="form-group2">
+                        <label asp-for="Gym.StreetNumber">Numer ulicy</label>
+                        <input asp-for="Gym.StreetNumber" class="form-control"  name="StreetNumber" required>
+                        <span asp-validation-for="Gym.StreetNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group2">
+                        <label asp-for="Gym.City">Miasto</label>
+                        <input asp-for="Gym.City" class="form-control" name="City" required>
+                        <span asp-validation-for="Gym.City" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Dodaj siłownię</button>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+<script>
+    $(document).ready(function () {
+        $('#addGymForm').on('submit', function (event) {
+            event.preventDefault(); // Zapobiega domyślnej akcji przesyłania formularza
+
+            var validator = $(this).validate(); // Pobiera instancję walidatora
+            if (validator.form()) { // Sprawdza, czy formularz jest ważny
+                $.ajax({
+                    url: $(this).attr('action'), // Pobiera adres URL z atrybutu 'action' formularza
+                    type: 'POST',
+                    data: $(this).serialize(), // Pobiera dane formularza
+                    success: function (response) {
+                        if (response) {
+                            // Dodaj nową siłownię do listy rozwijanej
+                            var newOption = new Option(response.gymName, response.id, true, true);
+                            $('#form-controlgym').append(newOption).trigger('change');
+                            $('#form-controlgym').val(response.id).trigger('change');
+                            $('#addGymModal').hide();
+                            $('.modal-backdrop').remove();
+                            $('#addGymForm')[0].reset();
+                            $('span[data-valmsg-for^="Gym."]').text('');
+                        }
+                    }
+                });
+            } else {
+                // Formularz nie jest ważny, wyświetl komunikat o błędzie
+                var errors = validator.errorList;
+                $.each(errors, function (index, error) {
+                    var elementName = "Gym." + error.element.name;
+                    var errorMessage = error.message;
+                    // Wyświetl komunikat o błędzie pod odpowiednim polem
+                    $('span[data-valmsg-for="' + elementName + '"]').text(errorMessage);
+                    console.log('Pole:', error.element.name, 'Błąd:', error.message);
+                });
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#form-controlgym').select2(
+            {
+                placeholder: "Wybierz silownie",
+                allowClear: true,
+                
+            });
+    });
+    document.getElementById('startTime').addEventListener('change', function () {
+        const currentDate = new Date();
+        const selectedDate = new Date(document.getElementById('date').value);
+        const currentTime = currentDate.toLocaleTimeString('pl-PL', { hour12: false });
+        const selectedTime = this.value;
+    
+        if (selectedDate.setHours(0,0,0,0) === currentDate.setHours(0,0,0,0) && selectedTime < currentTime) {
+            alert("Godzina rozpoczęcia nie może być wcześniejsza niż obecna godzina");
+            this.value = '';
+        }
+    });
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').setAttribute('min', today);
+    });
+
+    const timeInput = document.getElementById('time')
+
+    timeInput.addEventListener('input', (e) => {
+      let hour = e.target.value.split(':')[0]
+      e.target.value = `${hour}:00`
+    });
+    document.getElementById('endTime').addEventListener('change', function () {
+    const startTime = document.getElementById('startTime').value;
+    const endTime = this.value;
+    if (endTime <= startTime) {
+        alert("Godzina zakończenia nie może być równa lub wcześniejsza niż godzina rozpoczęcia");
+        this.value = '';
+    }
+    });
+</script>
+}

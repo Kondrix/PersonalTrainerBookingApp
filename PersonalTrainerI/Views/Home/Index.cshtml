@@ -1,0 +1,70 @@
+﻿@model IEnumerable<GymViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    .active {
+        color: white;
+    }
+</style>
+<section id="mainIndex">
+
+   <div id="centerdiv">
+       <div id="textbox">
+           <p>Szukaj</p>
+           <p>Trenuj</p>
+           <p>Progresuj</p>
+
+       </div>
+       <div id="trainerSearch">
+           <div id="buttonsdiv">
+                <button value="Silowy">Trening Siłowy</button>
+                <button value="Cardio">Trening Cardio</button>
+                <button value="Fitness">Trening Fitnes</button>
+
+
+           </div>
+           <div id="blurdiv">
+    <form method="get" action="/PersonalTrainer/Result">
+
+        <label for="location"><i class="fa-solid fa-map-location-dot fa-2xl"></i></label><br>
+        <select id="location" name="location"><br>
+            <option value="">Wszystkie</option>
+                        @foreach (var gym in Model)
+                        {
+                                <option>@gym.City</option>
+                        }
+            </select>
+            
+                    <label for="date"><i class="fa-solid fa-calendar-days fa-2xl"></i></label><br>
+        <input type="date" id="date" name="date"><br>
+                    <input type="hidden" id="trainingType" name="trainingType" value="">
+
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+                    </button>
+    </form>
+            </div>
+        </div>
+</div>
+
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    let today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').setAttribute('min', today);
+});
+  document.querySelectorAll('#buttonsdiv button').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        document.querySelectorAll('#buttonsdiv button').forEach(button => {
+            button.classList.remove('active');
+        });
+        this.classList.add('active');
+        var value = this.getAttribute('value');
+        console.log('Button clicked, value set to: ' + value);
+        document.getElementById('trainingType').value  = value;
+        console.log( document.getElementById('trainingType').value);
+    });
+});
+</script>

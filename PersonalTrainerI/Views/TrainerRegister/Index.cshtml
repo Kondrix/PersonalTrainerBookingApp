@@ -1,0 +1,159 @@
+﻿@model PersonalTrainerI.Models.PersonalTrainerAndGymViewModel
+
+@{
+    ViewData["Title"] = "Rejestracja trenera";
+}
+
+
+<h2 >@ViewData["Title"]</h2>
+
+<section id="tregm">
+    
+    <div id="main-formtr">
+        @if (!Model.isPersonalTrainer)
+{
+        <div id="contentform">
+        <form asp-controller="TrainerRegister" asp-action="AddT" method="post">
+            <div class="form-group1">
+                <label asp-for="PersonalTrainer.FirstName">Imię</label>
+                <input asp-for="PersonalTrainer.FirstName" class="form-control" />
+                <span asp-validation-for="PersonalTrainer.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group1">
+                <label asp-for="PersonalTrainer.LastName">Nazwisko</label>
+                <input asp-for="PersonalTrainer.LastName" class="form-control" />
+                <span asp-validation-for="PersonalTrainer.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group1">
+                <label asp-for="PersonalTrainer.TrainingType">Typ treningu</label>
+                <select asp-for="PersonalTrainer.TrainingType" class="form-control">
+                    <option value="Silowy">Silowy</option>
+                    <option value="Cardio">Cardio</option>
+                    <option value="Fitness">Fitness</option>
+                </select>
+            </div>
+            <div class="form-group1">
+                <label>Wybierz siłownie</label>
+                <select   name="gyms" multiple="multiple" class="form-control" id="form-controlg">
+                         @{
+                         @foreach (var gym in Model.GymList)
+                    {
+                        <option value="@gym.Value">@gym.Text</option>
+                    }
+                    }
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Zarejestruj</button>
+            </div>
+
+        </form>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGymModal">Dodaj nową siłownię</button>
+
+
+
+            </div>
+        }
+        else
+        {
+            <div class="col-xs-1" align="center">
+            <h2>Trwa weryfikacja </h2>
+            <div class="spinner-border" role="status">
+                
+            </div>
+            </div>
+        }
+    </div>
+</section>
+<div class="modal" id="addGymModal" tabindex="-1" role="dialog" aria-labelledby="addGymModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGymModalLabel">Dodaj nową siłownię</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <form asp-controller="TrainerRegister" asp-action="AddNewGym" id="addGymForm" method="post">
+                    <div class="form-group2">
+                        <label asp-for ="Gyms.GymName">Nazwa siłowni</label>
+                        <input asp-for="Gyms.GymName" class="form-control"  name="GymName" required>
+                    </div>
+                    <div class="form-group2">
+                        <label asp-for="Gyms.Street">Ulica</label>
+                        <input asp-for="Gyms.Street" class="form-control"  name="Street" required>
+                        <span asp-validation-for="Gyms.Street" class="text-danger"></span>
+                    </div>
+                    <div class="form-group2">
+                        <label asp-for="Gyms.StreetNumber">Numer ulicy</label>
+                        <input asp-for="Gyms.StreetNumber" class="form-control"  name="StreetNumber" required>
+                        <span asp-validation-for="Gyms.StreetNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group2">
+                        <label asp-for="Gyms.City">Miasto</label>
+                        <input asp-for="Gyms.City" class="form-control"  name="City" required>
+                        <span asp-validation-for="Gyms.City" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Dodaj siłownię</button>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('#addGymForm').on('submit', function (event) {
+                event.preventDefault(); // Zapobiega domyślnej akcji przesyłania formularza
+
+                var validator = $(this).validate(); // Pobiera instancję walidatora
+                if (validator.form()) { // Sprawdza, czy formularz jest ważny
+                    $.ajax({
+                        url: $(this).attr('action'), // Pobiera adres URL z atrybutu 'action' formularza
+                        type: 'POST',
+                        data: $(this).serialize(), // Pobiera dane formularza
+                        success: function (response) {
+                            if (response) {
+                                // Dodaj nową siłownię do listy rozwijanej
+                                var newOption = new Option(response.gymName, response.id, true, true);
+                                $('#form-controlg').append(newOption).trigger('change');
+                                $('#form-controlg').val(response.id).trigger('change');
+                                $('#addGymModal').hide();
+                                $('.modal-backdrop').remove();
+                                $('#addGymForm')[0].reset();
+                                $('span[data-valmsg-for^="Gyms."]').text('');
+                            }
+                        }
+                    });
+                } else {
+                    // Formularz nie jest ważny, wyświetl komunikat o błędzie
+                     var errors = validator.errorList;
+            $.each(errors, function (index, error) {
+                var elementName = "Gyms." + error.element.name;
+                var errorMessage = error.message;
+                // Wyświetl komunikat o błędzie pod odpowiednim polem
+                $('span[data-valmsg-for="' + elementName + '"]').text(errorMessage);
+                        console.log('Pole:', error.element.name, 'Błąd:', error.message);
+                    });
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('#form-controlg').select2(
+                {
+                    placeholder: "Wybierz silownie",
+                    allowClear: true
+                });
+        });
+    </script>
+}

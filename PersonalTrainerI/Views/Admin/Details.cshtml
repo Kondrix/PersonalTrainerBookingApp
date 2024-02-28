@@ -1,0 +1,90 @@
+﻿@model PersonalTrainerI.Models.PersonalTrainerViewModel
+<style>
+    *{
+        color:whitesmoke;
+    }
+</style>
+<section class="container">
+    <a href="@Url.Action("Index", "Admin")" class="btn btn-primary">Powrót do listy trenerów</a>
+    <div class="row gap-3">
+        <div class="col-sm" style="background-color:#0B0B0B;">
+              
+                    <h2>Szczegóły trenera: @Model.FirstName @Model.LastName</h2>
+
+                    <table class="table">
+                        <tr>
+                            <th>Imię</th>
+                            <td>@Model.FirstName</td>
+                        </tr>
+                        <tr>
+                            <th>Nazwisko</th>
+                            <td>@Model.LastName</td>
+                        </tr>
+                        <tr>
+                            <th>Typ treningu</th>
+                            <td>@Model.TrainingType</td>
+                        </tr>
+                        <tr>
+                            <th>Zweryfikowany</th>
+        
+                                @{
+                                    if(@Model.IsVerified)
+                                    {
+                                        <td>Tak</td>
+                                    }
+                                    else
+                                    {
+                                       <td>Nie</td>
+
+                                    }
+            
+                                }
+                                
+                        
+                    
+                        </tr>
+                        <tr>
+                            <th>Siłownie</th>
+                                @{
+                                        foreach(var gym in Model.GymTrainers)
+                                        {
+                                             <td>
+                                             @gym.Gym.GymName
+                                             </td>
+                                        }
+                                    }
+                                        
+                        </tr>
+                    </table>
+        </div>
+
+
+        <div class="col-sm"style="background-color:#0B0B0B;">
+
+                <h2>Treningi</h2>
+                   <table class="table">
+                    <thead>
+                        <tr>
+                            <th>UserID</th>
+                            <th>Data</th>
+                            <th>Siłownia</th>
+                            <th>Długość treningu</th>
+            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var traning in Model.Training)
+                        {
+                                <tr>
+                                    <td>@traning.UserID</td>
+                                    <td>@traning.StartDateTime</td>
+                                    <td>@traning.Gym.GymName</td>
+                                    <td>@traning.Duration</td>
+                    
+                                </tr>
+                        }
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</section>

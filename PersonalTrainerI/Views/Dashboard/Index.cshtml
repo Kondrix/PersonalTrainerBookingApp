@@ -1,0 +1,276 @@
+﻿@using System.Globalization
+
+@model IEnumerable<TrainingViewModel>
+@{
+   
+}
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+
+</style>
+<section id="profileD">
+   
+     
+    <div id="profile-buttons">
+        <button onclick="changeColor(this)" id="btn1"><i class="fa-solid fa-house fa-2xl"></i></button>
+        <button onclick="changeColor(this)" id="btn2"><i class="fa-solid fa-dumbbell fa-2xl"></i></button>
+        <button onclick="changeColor(this)" id="btn3"><i class="fa-solid fa-chart-simple fa-2xl"></i></button>
+        <form style="align-self:center" asp-area="Identity" asp-page="/Account/Manage/Index" )">
+        <button onclick="changeColor(this)" id="btn4"><i class="fa-solid fa-gear fa-2xl"></i></button>
+        </form>
+
+        <form  style="align-self:center" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <button onclick="changeColor(this)" id="btn5"><i class="fa-solid fa-right-from-bracket fa-2xl"></i></button>
+        </form>
+    </div>
+    <div id="main-profile">
+
+        <div id="btn1-div">
+            <div id="topmain">
+                <div id="trbox">
+                    <h3>Następny Trening</h3>
+                    <div id="nextT">
+                        @if (Model != null)
+                        {
+                            var training = Model.FirstOrDefault(t => t.StartDateTime >= DateTime.Now);
+                            @if (training != null)
+                            {
+                                <p><i class="fa-solid fa-calendar fa-xl"></i>  @training.StartDateTime</p>
+                                <div id="timeT"> <p><i class="fa-solid fa-clock fa-xl"></i> @training.Duration</p></div>
+                                <div id="trtype">   <p><i class="fa-solid fa-dumbbell fa-xl"></i> @training.TrainingType </p></div>
+
+                                <p>Trener: @training.PersonalTrainers.FirstName @training.PersonalTrainers.LastName</p>
+                                <p>Siłownia: @training.Gym.GymName, @training.Gym.City  </p>
+                            }
+                             else
+                                {
+                                    <h3 style="margin:10%">Brak</h3>
+                                }
+                        }
+                       
+                    </div>
+                </div>
+            
+           <div id="charttr">
+               <h3>Ilość godzin treningowych tygodniowo</h3>
+                <canvas id="trainingChart"></canvas>
+           
+           </div>
+            </div>
+           <div id="trlist">
+
+
+                @if (Model != null)
+                {
+                    <h3>Moi Trenerzy:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                               
+                                <th>Imię</th>
+                                <th>Nazwisko</th>
+                                <th>Ocena</th>
+                                <th>Rodzaj</th>
+                                <th>Ilość treningów</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var uniqueTrainers = Model.DistinctBy(trainer => trainer.PersonalTrainers.ID);
+                            }
+                            @foreach (var trainer in uniqueTrainers)
+                            {
+                                <tr>
+                                   
+                                    <td>@trainer.PersonalTrainers.FirstName</td>
+                                    <td>@trainer.PersonalTrainers.LastName</td>
+                                    <td>@trainer.PersonalTrainers.Rating</td>
+                                    <td>@trainer.PersonalTrainers.TrainingType</td>
+                                    <td>@trainer.PersonalTrainers.Training.Count</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+           </div>
+        </div>
+       
+        <div id="btn2-div">
+        <h3>Wszystkie treningi</h3>
+        <div id="table-div">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Czas trwania</th>
+                    <th>Typ treningu</th>
+                    
+                    <th>Trener</th>
+                </tr>
+            </thead>
+            <tbody>
+               @if(Model != null)
+                {
+                            @foreach (var training in Model.OrderByDescending(t => t.StartDateTime))
+                             {
+                                <tr>
+                                    <td>@training.StartDateTime</td>
+                                    <td>@training.Duration</td>
+                                    <td>@training.TrainingType</td>
+                                    <td>@training.PersonalTrainers.FirstName @training.PersonalTrainers.LastName</td>
+                                </tr>
+                            }
+                }
+                      
+         </tbody>
+        </table>
+              
+            </div>
+        </div>
+        <div id="btn3-div">
+            <h3>Statyski</h3>
+            <div id="mainbnt3"> 
+                <div id="mainbnt3-left">
+                    <div id="totaltr">
+                         <p>ukończonych treningów:</p>
+                         
+                        <p>@ViewBag.TotalTrainings</p>
+                    </div>
+                   
+                    </div>
+            <div id="mainbnt3-right"> 
+                <div id="totalh">
+                      <p>Przetrenowany czas:</p>
+                        <p> @ViewBag.FormattedTime</p>
+                        
+                </div>
+            </div>
+
+            </div>
+            
+        </div>
+        <div id="btn4-div">
+
+        </div>
+        <div id="btn5-div">
+        </div>
+
+
+    </div>
+
+    @if (!String.IsNullOrEmpty(ViewBag.Alert))
+    {
+        <div class="modal" tabindex="-1" role="dialog" id="alertModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Komunikat</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>@ViewBag.Alert</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#alertModal').modal('show');
+            });
+        </script>
+    }
+</section>
+@if (!String.IsNullOrEmpty(ViewBag.Alert))
+{
+    <div class="alert alert-success">
+        @ViewBag.Alert
+    </div>
+}
+<script>
+    fetch('/Dashboard/TrainingHoursChart')
+        .then(response => response.json())
+        .then(data => {
+            const daysOfWeek = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'];
+            const ctx = document.getElementById('trainingChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(item => daysOfWeek[(item.dayOfWeek + 7) % 7]),
+                    datasets: [{
+                        label: 'Godziny treningowe',
+                        data: data.map((item, index, array) => array[(index + 1) % array.length].totalDuration),
+                        fill: false,
+                        borderColor: 'rgba(229,128,50,255)',
+                        tension: 0.5
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    var lastClickedButton = null;
+    const canvas = document.getElementById('trainingChart');
+
+
+
+    function changeColor(button) {
+       
+        var divs = ['btn1-div', 'btn2-div', 'btn3-div', 'btn4-div', 'btn5-div'];
+        for (var i = 0; i < divs.length; i++) {
+            var div = document.getElementById(divs[i]);
+            if (div) {
+                div.style.display = 'none';
+            }
+        }
+
+       
+        if (lastClickedButton) {
+            lastClickedButton.style.backgroundColor = '';
+        }
+
+       
+        button.style.backgroundColor = 'rgba(229,128,50,255)';
+
+     
+        var currentDiv = document.getElementById(button.id + '-div');
+        if (currentDiv) {
+            currentDiv.style.display = 'flex';
+        }
+
+        
+        lastClickedButton = button;
+    }
+
+    window.onload = function () {
+        var elements = document.getElementsByClassName('navbar-brand text-white');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.marginLeft = '30px';
+        }
+
+        var header = document.querySelector('header');
+        if (header) {
+            header.style.boxShadow = 'none';
+        }
+        var headerc = document.querySelector('header');
+        if (header) {
+            header.style.backgroundColor = '#0B0B0B';
+        }
+        var firstButton = document.getElementById('btn1');
+        changeColor(firstButton);
+    };
+</script>
+

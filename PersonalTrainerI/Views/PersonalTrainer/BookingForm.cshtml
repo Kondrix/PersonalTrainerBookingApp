@@ -1,0 +1,170 @@
+﻿@model PersonalTrainerI.Models.TrainingViewModel
+@{
+    ViewData["Title"] = "BookingForm";
+}
+
+<div id="mainbooking">
+    <div id="centerform">
+        <div id="formtitle">
+        <h1>Rezerwacja Trenera</h1>
+        </div>
+        <div id="mainform">
+        <div id="leftform">
+
+                <div id="bookingform">
+<div class="form-group">
+    <label for="availability">Dostępność trenera:</label>
+    @Html.DropDownList("Availability", ViewBag.Availability as SelectList, "Wybierz datę", new { @class = "form-control" })
+</div>
+
+<form asp-action="BookingForm">
+    <div class="form-group">
+        <label asp-for="GymID" class="control-label"> Siłownia</label>
+        <select asp-for="GymID" class="form-control" asp-items="ViewBag.Gyms"></select>
+    </div>
+    <input type="hidden" id="StartDateTime" name="StartDateTime" />
+
+    <div class="form-group">
+        <label for="startTime">Czas rozpoczęcia:</label>
+        <select id="startTime" name="StartTime" class="form-control" required></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Duration">Czas trwania:</label>
+        <select id="duration" name="Duration" required>
+            <option value="01:00:00.0000000">1 godzina</option>
+            <option value="02:00:00.0000000">2 godziny</option>
+        </select>
+    </div>
+
+    <input id="trainerId" name="PersonalTrainersID" type="hidden" value="@Model.PersonalTrainers.ID" required />
+    <input id="treningType" name="TrainingType" type="hidden" value="@Model.PersonalTrainers.TrainingType" required />
+
+   
+    <div class="form-group">
+        <input type="submit" value="Rezerwuj" id="subformbut" />
+    </div>
+   
+</form>
+                </div>
+
+         
+        </div>
+        <div id="rightform">
+              <div class="trainer-cardrf">
+                    <div id="profileimgtrrt">  <img src="../image/logo.png" alt="Logo Personal Trainer"> </div>
+                    <div id="trdeatails">
+                        <h2>@Model.PersonalTrainers.FirstName @Model.PersonalTrainers.LastName</h2>
+                        
+                        <p>Rodzaj treningu: @Model.PersonalTrainers.TrainingType</p>
+                        <p>Ocena: @Model.PersonalTrainers.Rating</p>
+                           
+                        
+                        
+                       
+                             
+                     
+                       
+                    </div>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+    function updateStartDateTime() {
+        var selectedDate = $("#Availability option:selected").text();
+        var selectedTime = $("#startTime").val();
+        var startDateTime = selectedDate + " " + selectedTime;
+        $("#StartDateTime").val(startDateTime);
+    }
+    var numberOfOptions = $(this).children("option").length;
+
+    function isTrainingBooked(optionText) {
+        
+        return false;
+    }
+    $("#startTime").change(function () {
+        var selectedTime = $(this).val();
+        var selectedTimeIndex = $(this).prop('selectedIndex');
+        var nextTime = $(this).children("option").eq(selectedTimeIndex + 1).val();
+
+        if (nextTime) {
+            var selectedTimeInMinutes = convertTimeToMinutes(selectedTime);
+            var nextTimeInMinutes = convertTimeToMinutes(nextTime);
+
+            if ((nextTimeInMinutes - selectedTimeInMinutes) > 60) {
+                setDurationToOneHour();
+            } else {
+                setDurationToBothOptions();
+            }
+        } else {
+            setDurationToOneHour();
+        }
+    });
+
+    function convertTimeToMinutes(timeString) {
+        var timeParts = timeString.split(':');
+        return (+timeParts[0]) * 60 + (+timeParts[1]);
+    }
+
+    function setDurationToOneHour() {
+        $("#duration").empty();
+        $("#duration").append(new Option("1 godzina", "01:00:00.0000000"));
+    }
+
+    function setDurationToBothOptions() {
+        $("#duration").empty();
+        $("#duration").append(new Option("1 godzina", "01:00:00.0000000"));
+        $("#duration").append(new Option("2 godziny", "02:00:00.0000000"));
+    }
+
+
+    $(document).ready(function () {
+        
+        var selectedDateId;
+
+        $("#Availability").change(function () {
+           
+            selectedDateId = $(this).val();
+            $.get("/PersonalTrainer/GetAvailability?dateId=" + selectedDateId, function (data) {
+                console.log("Data received:", JSON.stringify(data));
+
+                var $startTimeSelect = $("#startTime");
+                $startTimeSelect.empty(); 
+
+                if (data.availableHours && data.availableHours.length > 0) { 
+                    data.availableHours.forEach(function (hour) {
+                        var optionText = new Date("1970-01-01T" + hour).toTimeString().slice(0, 5);
+                        if (!isTrainingBooked(optionText)) {
+                            $startTimeSelect.append($("<option></option>")
+                                .attr("value", optionText)
+                                .text(optionText));
+                        }
+                    });
+
+               
+                    var numberOfOptions = $startTimeSelect.children("option").length;
+                    if (numberOfOptions === 1) {
+                        $("#duration").empty(); 
+                        $("#duration").append(new Option("1 godzina", "01:00:00.0000000")); 
+                    } else {
+                        
+                        $("#duration").empty(); 
+                        $("#duration").append(new Option("1 godzina", "01:00:00.0000000"));
+                        $("#duration").append(new Option("2 godziny", "02:00:00.0000000"));
+                    }
+                } else {
+                    $startTimeSelect.append($("<option></option>")
+                        .attr("value", "")
+                        .text("Brak terminów")); 
+                }
+
+                updateStartDateTime();
+            });
+        });
+
+        $("#startTime").change(function () {
+            updateStartDateTime();
+        });
+    });
+</script>

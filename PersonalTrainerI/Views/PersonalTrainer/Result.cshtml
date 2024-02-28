@@ -1,0 +1,109 @@
+﻿@model List<PersonalTrainerViewModel>
+
+@if (Model != null)
+{
+    <div id="blurback">
+        <div id="filter-nav">
+            <form action="/PersonalTrainer/Result" method="get">
+                <label for="location"><i class="fa-solid fa-map-location fa-2xl"></i></label>
+              <select id="location" name="location">
+                @if (ViewBag.Location == null)
+                {
+                    <option value="" selected>Wszystkie</option>
+                }
+                else if (ViewBag.Cities.Contains(ViewBag.Location))
+                {
+                    <option value="@ViewBag.Location">@ViewBag.Location</option>
+                    <option value="">Wszystkie</option>
+                }
+                else
+                {
+                    <option value="">Wszystkie</option>
+                }
+
+                @foreach (var city in ViewBag.Cities)
+                {
+                    if (city != ViewBag.Location)
+                    {
+                        <option value="@city">@city</option>
+                    }
+                }
+            </select>
+                <label for="date"><i class="fa-solid fa-calendar-days fa-2xl"></i></label>
+                <input type="date" id="date" name="date" value="@ViewBag.Date">
+
+
+               <label for="trainingType"><i class="fa-solid fa-dumbbell fa-2xl"></i></label>
+                <select id="trainingType" name="trainingType" >
+                    @if (ViewBag.TrainingType == null)
+                    {
+                        <option value="" selected>Wszystkie</option>
+                    }
+                    else if (ViewBag.TrainingTypes.Contains(ViewBag.TrainingType))
+                    {
+                        <option value="@ViewBag.TrainingType">@ViewBag.TrainingType</option>
+                        <option value="">Wszystkie</option>
+                    }
+                    else
+                    {
+                        <option value="">Wszystkie</option>
+                    }
+
+                        @foreach (var type in ViewBag.TrainingTypes)
+                            {
+                                if (type != ViewBag.TrainingType)
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            }
+                    </select>
+               
+                <button type="submit"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
+            </form>
+        </div>
+                <div id="trainer-cards-container">
+
+            @foreach (var trainer in Model)
+            {
+                <div class="trainer-card">
+                    <div id="profileimgtr">  <img src="../image/logo.png" alt="Logo Personal Trainer"> </div>
+                    <div id="trdeatails">
+                        <h2>@trainer.FirstName @trainer.LastName </h2>
+                    
+                        @if (trainer.GymTrainers != null && trainer.GymTrainers.Any() ) 
+                        {
+                            <p>Miasto: @string.Join(", ", trainer.GymTrainers.Select(gt => gt.Gym.City))</p>
+                            <p>Siłownie: @string.Join(", ", trainer.GymTrainers.Select(gt => gt.Gym.GymName))</p>
+                            <p>Rodzaj treningu: @trainer.TrainingType</p>
+                            <p>Ocena: @trainer.Rating</p>
+
+                            <form method="get" action="/PersonalTrainer/BookingForm">
+                                <input type="hidden" value="@trainer.ID" name="trainerid" id="trainerid" for="trainerid">
+                                <button id="trRent" type="submit">Wybierz</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <p>Niedostępny</p>
+                        }
+                       
+                             
+                     
+                       
+                    </div>
+                </div>
+            }
+    </div>
+    </div>
+}
+else
+{
+   <p>Brak trenerów, zmień kryteria</p>
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').setAttribute('min', today);
+    });
+</script>
