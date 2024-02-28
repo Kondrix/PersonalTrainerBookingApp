@@ -23,32 +23,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var trainer in Model.PersonalTrainers.Where(t => t.IsVerified))
+                    @if(Model.PersonalTrainers != null)
                     {
-                        <tr>
-                            <td>@trainer.User</td>
-                            <td>@trainer.FirstName</td>
-                            <td>@trainer.LastName</td>
-                            <td>@trainer.TrainingType</td>
-                            <td>@trainer.Training.Count</td>
-                            <td>
-                               @foreach (var gymTrainer in trainer.GymTrainers.Select(t=>t.Gym))
-                                {
-                                    <p>@gymTrainer.GymName</p>
-                                }
-                            </td>
-                             <td> 
-                                 
-                                 <a href="@Url.Action("Details", "Admin", new { id = trainer.ID })" class="btn btn-success">Szczegóły</a>
+                        @foreach (var trainer in Model.PersonalTrainers.Where(t => t.IsVerified))
+                        {
+                            <tr>
+                                <td>@trainer.User</td>
+                                <td>@trainer.FirstName</td>
+                                <td>@trainer.LastName</td>
+                                <td>@trainer.TrainingType</td>
+                                <td>@trainer.Training.Count</td>
+                                <td>
+                                    @foreach (var gymTrainer in trainer.GymTrainers.Select(t => t.Gym))
+                                    {
+                                        <p>@gymTrainer.GymName</p>
+                                    }
+                                </td>
+                                <td>
 
-                                                <form method="post" action="@Url.Action("Delete", "Admin")">
-                                                    <input type="hidden" name="id" value="@trainer.ID" />
-                                                    <input type="submit" value="Usuń" class="btn btn-danger" />
-                                                </form>
-                               
-                             </td>
-                        </tr>
+                                    <a href="@Url.Action("Details", "Admin", new { id = trainer.ID })" class="btn btn-success">Szczegóły</a>
+
+                                    <form method="post" action="@Url.Action("Delete", "Admin")">
+                                        <input type="hidden" name="id" value="@trainer.ID" />
+                                        <input type="submit" value="Usuń" class="btn btn-danger" />
+                                    </form>
+
+                                </td>
+                            </tr>
+                        }
                     }
+                    
                 </tbody>
             </table>
     </div>
@@ -67,6 +71,8 @@
                 </tr>
             </thead>
             <tbody>
+                @if(Model.PersonalTrainers != null)
+                {
                 @foreach (var trainer in Model.PersonalTrainers.Where(t => !t.IsVerified))
                 {
                     <tr>
@@ -92,6 +98,7 @@
                         </td>
                     </tr>
                 }
+                    }
             </tbody>
         </table>
     </div>
