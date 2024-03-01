@@ -11,9 +11,7 @@ The personal training reservation application is designed for both clients and t
 * [Database](#database)
 * [Demo](#demo)
 * [Installation](#installation)
-    * [Clone the Repository](#1-clone-the-repository)
-    * [Configure the Database](#2-configure-the-database)
-    * [Build and Run the Project](#3-build-and-run-the-project)
+  
 * [Screenshots](#screenshots)
     * [Home Screen](#home-screen)
     * [Result Screen](#result-screen)
