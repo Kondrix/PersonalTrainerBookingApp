@@ -32,6 +32,7 @@ namespace PersonalTrainerI.Controllers
             return View(tables);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Verify(int id)
         {
             var trainer = await _context.PersonalTrainers
@@ -54,6 +55,7 @@ namespace PersonalTrainerI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             var trainer = await _context.PersonalTrainers

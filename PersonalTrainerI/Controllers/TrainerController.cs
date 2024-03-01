@@ -154,13 +154,11 @@ namespace PersonalTrainerI.Controllers
         {
             var userfortrainerID = _userManager.GetUserId(User);
 
-            // Use FirstOrDefault() instead of ToString() to get the PersonalTrainer entity
             var trainer = _context.PersonalTrainers
                 .FirstOrDefault(t => t.User.Id == userfortrainerID);
 
             if (trainer == null)
             {
-                // Handle the case where the trainer is not found
                 return NotFound();
             }
 
