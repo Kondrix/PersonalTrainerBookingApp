@@ -83,13 +83,22 @@ namespace PersonalTrainerI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AvailabilityViewModel model)
         {
+           
             var userId = _userManager.GetUserId(User);
             var trainer = _context.PersonalTrainers
                 .FirstOrDefault(pt => pt.User.Id == userId);
+            var isRecordExists = _context.Availability.Any(a => a.Date == model.Date && a.PersonalTrainer.ID == trainer.ID);
+            var isSameDate = isRecordExists ? true : false;
 
             ModelState.Remove("PersonalTrainer");
+            if (isRecordExists)
+            {
+                TempData["RecordExists"] = "Już istnieje dostępnośc w tym dniu";
 
-            if (ModelState.IsValid)
+                return RedirectToAction("Availability");
+            }
+
+            else if(ModelState.IsValid)
             {
 
                 model.PersonalTrainer = trainer;

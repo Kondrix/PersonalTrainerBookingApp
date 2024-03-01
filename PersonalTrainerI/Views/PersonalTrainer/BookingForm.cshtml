@@ -71,12 +71,13 @@
     </div>
 </div>
 <script>
-    function updateStartDateTime() {
-        var selectedDate = $("#Availability option:selected").text();
-        var selectedTime = $("#startTime").val();
-        var startDateTime = selectedDate + " " + selectedTime;
-        $("#StartDateTime").val(startDateTime);
-    }
+function updateStartDateTime() {
+    var selectedDate = $("#Availability option:selected").text();
+    var selectedTime = $("#startTime").val();
+    var startDateTime = moment(selectedDate + " " + selectedTime, "DD.MM.YYYY HH:mm");
+    startDateTime = startDateTime.add(1, 'hours'); 
+    $("#StartDateTime").val(startDateTime.format());
+}
     var numberOfOptions = $(this).children("option").length;
 
     function isTrainingBooked(optionText) {
@@ -127,7 +128,7 @@
            
             selectedDateId = $(this).val();
             $.get("/PersonalTrainer/GetAvailability?dateId=" + selectedDateId, function (data) {
-                console.log("Data received:", JSON.stringify(data));
+                
 
                 var $startTimeSelect = $("#startTime");
                 $startTimeSelect.empty(); 

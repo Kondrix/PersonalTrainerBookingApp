@@ -191,16 +191,20 @@ namespace PersonalTrainerI.Controllers
                     }
                 }
 
-               
+             
+
                 foreach (var training in trainings.Where(t => t.Duration.TotalHours > 2))
                 {
                     var endHour = training.StartDateTime.TimeOfDay.Add(training.Duration);
                     availableHours.RemoveAll(ts => ts >= endHour && ts < endHour.Add(training.Duration));
                 }
-
+                
                 if (availableHours.Any())
                 {
-                    return Json(new { AvailableHours = availableHours });
+                    DateTime currentTime = DateTime.Now;
+                    List<TimeSpan> filteredHours = availableHours.Where(ts => ts >= currentTime.TimeOfDay).ToList();
+                    return Json(new { AvailableHours = filteredHours });
+                 
                 }
             }
 

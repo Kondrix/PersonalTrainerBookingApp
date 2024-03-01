@@ -29,7 +29,7 @@
                         @if (item.Date > DateTime.Now)
                         {
                             <td>
-                                <form method="post" action="@Url.Action("Delete", "Trainer")">
+                                <form  asp-action="Delete">
                                     <input type="hidden" name="id" value="@item.ID" />
                                     <input type="submit" value="Usuń" class="btn btn-danger" />
                                 </form>
@@ -44,9 +44,17 @@
 
     <!-- Drugi div -->
     <div class="col">
+      
         <div class="col-sm mb-3">
-            <div class="row">
+            
                 <div class="col-sm rounded p-1" style="background-color:#0B0B0B;">
+                <div class="row">
+                    @if (TempData["RecordExists"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["RecordExists"]
+                        </div>
+                    }
                     <h2 class="mb-0">Dodaj dostępność</h2>
                     <form asp-action="Create">
                         <div class="row" style="max-width:25%">
@@ -184,17 +192,17 @@
 <script>
     $(document).ready(function () {
         $('#addGymForm').on('submit', function (event) {
-            event.preventDefault(); // Zapobiega domyślnej akcji przesyłania formularza
+            event.preventDefault(); 
 
-            var validator = $(this).validate(); // Pobiera instancję walidatora
-            if (validator.form()) { // Sprawdza, czy formularz jest ważny
+            var validator = $(this).validate(); 
+            if (validator.form()) { 
                 $.ajax({
-                    url: $(this).attr('action'), // Pobiera adres URL z atrybutu 'action' formularza
+                    url: $(this).attr('action'),
                     type: 'POST',
-                    data: $(this).serialize(), // Pobiera dane formularza
+                    data: $(this).serialize(), 
                     success: function (response) {
                         if (response) {
-                            // Dodaj nową siłownię do listy rozwijanej
+                            
                             var newOption = new Option(response.gymName, response.id, true, true);
                             $('#form-controlgym').append(newOption).trigger('change');
                             $('#form-controlgym').val(response.id).trigger('change');
@@ -206,14 +214,14 @@
                     }
                 });
             } else {
-                // Formularz nie jest ważny, wyświetl komunikat o błędzie
+               
                 var errors = validator.errorList;
                 $.each(errors, function (index, error) {
                     var elementName = "Gym." + error.element.name;
                     var errorMessage = error.message;
-                    // Wyświetl komunikat o błędzie pod odpowiednim polem
+                    
                     $('span[data-valmsg-for="' + elementName + '"]').text(errorMessage);
-                    console.log('Pole:', error.element.name, 'Błąd:', error.message);
+                   
                 });
             }
         });

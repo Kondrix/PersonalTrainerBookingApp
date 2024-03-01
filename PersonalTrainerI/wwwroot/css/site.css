@@ -184,10 +184,17 @@ header a{
             width: 11vh;
         }
         #blurdiv form input[type="date"] {
+            margin-right: 40px;
+            margin-left: 40px; /* Zwiêkszenie szerokoœci pól wejœciowych */
+            background-color: rgba(54, 52, 52,0.6);
+            color: whitesmoke;
+            text-align: center;
+            border: 1px solid;
+            border-radius: 35px;
+            font-size: 25px;
             height: 60%;
             align-self: center;
-            width: 25%;
-            font-size: 35px
+            width: 25%
         }
         #blurdiv form label {
            
@@ -209,7 +216,59 @@ header a{
         margin-left: 40px;
         font-size: 35px
     }
+@media only screen and (max-width: 768px) {
+    #textbox {
+        text-align:center;
+        font-size: 24vw;
+    }
 
+    #buttonsdiv button {
+        font-size: 5vw;
+    }
+
+    #blurdiv form input,
+    #blurdiv form label,
+    #blurdiv form select {
+        font-size: 5vw;
+    }
+
+    #blurdiv button {
+        font-size: 8vw;
+    }
+    #blurdiv form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+        #blurdiv form input,
+        #blurdiv form select,
+        #blurdiv form input[type="date"] {
+            width: 80%;
+            margin: 10px 0;
+        }
+
+        #blurdiv form button {
+            width: 50%;
+            margin-top: 20px;
+            font-size: 5vw;
+        }
+    #trainerSearch {
+        overflow-y:auto;
+        margin-left: 10%;
+        margin-right: 10%;
+        padding-bottom:30px;
+       
+    }
+        #trainerSearch button[type="submit"] {
+            margin-bottom: 0;
+            width: 20%;
+            margin-top:0px;
+            margin-bottom:30px;
+            height:20vh;
+            border-radius:50%;
+            
+        }
+}
 
     /*Result*/
 #blurback {
@@ -405,183 +464,196 @@ header a{
 #checkbox {
     color: whitesmoke;
 }
-/*Profil*/
-#profileD {
-    display: flex;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    background-color: #0B0B0B;
-}
-#profile-buttons {
-    display: flex;
-    flex-direction: column;
-    width: 15%;
-    position: relative;
-    height: 80%;
-    gap:5%;
-    justify-content:center;
-    
-}
-    #profile-buttons button {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-bottom: 0px;
-        align-self: center;
-        border: none;
-        background-color: rgb(255, 255, 255,0.6);
+@media only screen and (max-width: 768px) {
+    #loginform{
+        width:60%;
     }
-#main-profile {
-    
-    display: flex;
-    flex-direction: row;
-    width:70%;
-    height:80%;
-    
 }
-#btn1-div, #btn2-div, #btn3-div, #btn4-div, #btn5-div {
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(0, 0, 0, 0.4);
-    width: 100%;
-    height: 100%;
-    padding: 30px;
-    border-radius: 35px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-}
-#trbox {
-    width: 30%;
-    background-color: rgb(255, 255, 255,0.1);
-    height: 80%;
-    border-radius: 25px;
-    padding: 10px;
-    color: rgb(255, 255, 255,0.6);
-    display: flex;
-    flex-direction: column;
-    position:relative;
-
-
-}
-    #trbox h3 {
-        border-bottom: solid 1px;
-        color: rgba(229,128,50,1)
-    }
-#nextT {
-    flex-direction: column;
-    display: flex;
-    width: 100%;
-    height: fit-content;
-    font-size: 1.3em;
-    overflow: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: transparent;
-}
-    #nextT::-webkit-scrollbar {
-        width: 7px;
-        height: 10px;
-    }
-
-    #nextT::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.3);
-        border-radius: 20px;
-    }
-
-    #nextT::-webkit-scrollbar-track {
-        background-color: transparent;
-        border-radius: 25px;
-    }
-
-    #nextT::-webkit-scrollbar-corner {
-        background: rgba(0,0,0,0);
-    }
-    #nextT p {
-       
-    }
-
-#headerT {
-    width: 100%;
-    height: 100%;
-    display: flex;
-}
-#maintr {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-   
-    justify-content:center;
-}
-#trbox p {
-    margin: 0.89%;
-}
-#charttr {
-    width: 67%;
-    margin-left: 3%;
-    background-color: rgb(255, 255, 255,0.1);
-    border-radius: 25px;
-    padding: 10px;
-    color: rgb(255, 255, 255,0.6);
-    height: fit-content;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-}
-    #charttr h3 {
-        border-bottom: solid 1px;
-        
-    }
-#trlist {
-    overflow: auto;
-    display: flex;
-    background-color: rgb(255, 255, 255,0.1);
-    border-radius: 25px;
-    width: 30%;
-    height: 100%;
-    flex-direction: column;
-    color: rgb(255, 255, 255,0.6);
-    padding: 10px;
-    scrollbar-width: thin;
-    scrollbar-color: transparent;
-}
-    #trlist::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-
-    #trlist::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.3);
-        border-radius: 20px;
-    }
-
-    #trlist::-webkit-scrollbar-track {
-        background-color: transparent;
-        border-radius: 25px;
-    }
-
-    #trlist::-webkit-scrollbar-corner {
-        background: rgba(0,0,0,0);
-    }
-#trlist h3 {
-    border-bottom: solid 1px;
-}
-    #trlist table {
-        height: fit-content;
-        text-align: center;
+    /*Profil*/
+    #profileD {
+        display: flex;
+        position: fixed;
         width: 100%;
-        border-spacing:2px;
-       
+        height: 100%;
+        padding: 20px;
+        background-color: #0B0B0B;
     }
-        #trlist table thead {
-           
+
+    #profile-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 15%;
+        position: relative;
+        height: 80%;
+        gap: 5%;
+        justify-content: center;
+    }
+
+        #profile-buttons button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 0px;
+            align-self: center;
+            border: none;
+            background-color: rgb(255, 255, 255,0.6);
+        }
+
+    #main-profile {
+        display: flex;
+        flex-direction: row;
+        width: 70%;
+        height: 80%;
+    }
+
+    #btn1-div, #btn2-div, #btn3-div, #btn4-div, #btn5-div {
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.4);
+        width: 100%;
+        height: 100%;
+        padding: 30px;
+        border-radius: 35px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+
+    #trbox {
+        width: 30%;
+        background-color: rgb(255, 255, 255,0.1);
+        height: 80%;
+        border-radius: 25px;
+        padding: 10px;
+        color: rgb(255, 255, 255,0.6);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+        #trbox h3 {
+            border-bottom: solid 1px;
+            color: rgba(229,128,50,1)
+        }
+
+    #nextT {
+        flex-direction: column;
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        font-size: 1.3em;
+        overflow: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: transparent;
+    }
+
+        #nextT::-webkit-scrollbar {
+            width: 7px;
+            height: 10px;
+        }
+
+        #nextT::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+        }
+
+        #nextT::-webkit-scrollbar-track {
+            background-color: transparent;
+            border-radius: 25px;
+        }
+
+        #nextT::-webkit-scrollbar-corner {
+            background: rgba(0,0,0,0);
+        }
+
+        #nextT p {
+        }
+
+    #headerT {
+        width: 100%;
+        height: 100%;
+        display: flex;
+    }
+
+    #maintr {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #trbox p {
+        margin: 0.89%;
+    }
+
+    #charttr {
+        width: 67%;
+        margin-left: 3%;
+        background-color: rgb(255, 255, 255,0.1);
+        border-radius: 25px;
+        padding: 10px;
+        color: rgb(255, 255, 255,0.6);
+        height: fit-content;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+
+        #charttr h3 {
+            border-bottom: solid 1px;
+        }
+
+    #trlist {
+        overflow: auto;
+        display: flex;
+        background-color: rgb(255, 255, 255,0.1);
+        border-radius: 25px;
+        width: 30%;
+        height: 100%;
+        flex-direction: column;
+        color: rgb(255, 255, 255,0.6);
+        padding: 10px;
+        scrollbar-width: thin;
+        scrollbar-color: transparent;
+    }
+
+        #trlist::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        #trlist::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+        }
+
+        #trlist::-webkit-scrollbar-track {
+            background-color: transparent;
+            border-radius: 25px;
+        }
+
+        #trlist::-webkit-scrollbar-corner {
+            background: rgba(0,0,0,0);
+        }
+
+        #trlist h3 {
+            border-bottom: solid 1px;
+        }
+
+        #trlist table {
+            height: fit-content;
+            text-align: center;
             width: 100%;
-            
             border-spacing: 2px;
-            font-size:2vh;
-            font-weight:100;
         }
-        #trlist table th {
-           font-weight:500
-        }
+
+            #trlist table thead {
+                width: 100%;
+                border-spacing: 2px;
+                font-size: 2vh;
+                font-weight: 100;
+            }
+
+            #trlist table th {
+                font-weight: 500
+            }
 
     #topmain {
         width: 100%;
@@ -589,275 +661,282 @@ header a{
         display: flex;
         flex-direction: row;
     }
-#table-div {
-    display: flex;
-    height: 100%;
-    width: 100%;
-    color: rgb(255, 255, 255,0.6);
-    overflow: scroll;
-    scrollbar-width: thin;
-    scrollbar-color:  transparent;
-}
 
-    #table-div::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
+    #table-div {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        color: rgb(255, 255, 255,0.6);
+        overflow: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: transparent;
     }
 
-    #table-div::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.3);
-        border-radius: 20px;
-       
-    }
+        #table-div::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
 
-    #table-div::-webkit-scrollbar-track {
-        background-color: transparent;
-        border-radius: 25px;
-    }
+        #table-div::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+        }
 
-    #table-div::-webkit-scrollbar-corner {
-        background: rgba(0,0,0,0);
-    }
+        #table-div::-webkit-scrollbar-track {
+            background-color: transparent;
+            border-radius: 25px;
+        }
+
+        #table-div::-webkit-scrollbar-corner {
+            background: rgba(0,0,0,0);
+        }
 
     #btn2-div table {
         width: 100%;
         height: 100%;
         text-align: center;
     }
-#btn2-div h3 {
-    border-bottom: solid 1px;
-    color: rgba(229,128,50,1);
-    width:fit-content;
-}
-#btn2-div table th {
-   font-weight:500;
-   font-size:4vh;
-   border-bottom: solid 1px
-   
-}
-#btn2-div table td {
-    font-weight: 500;
-    font-size: 3vh;
- 
 
-}
-#btn3-div h3{
-    border-bottom: solid 1px;
-    color: rgba(229,128,50,1);
-}
-#mainbnt3{
-    display:flex;
-    flex-direction:row;
-    width:100%;
-    height:100%;
-}
-#mainbnt3-left {
-    display: flex;
-    width: 50%;
-    height: 100%;
-   
-    justify-content: center;
-    padding: 20px;
-}
-#mainbnt3-right {
-    display: flex;
-    width: 50%;
-    height: 100%;
-    
-    justify-content: center;
-    padding:20px;
-    
-}
-#totaltr {
-    width: 70%;
-    height: 30%;
-    background-color: rgb(255, 255, 255,0.1);
-    border-radius: 25px;
-    text-align: center;
-    color: rgb(255, 255, 255,0.6);
-    font-size: 4vh;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-}
-    #totaltr p{
-        margin:0;
-    }
-#totalh {
-    width: 70%;
-    height: 30%;
-    background-color: rgb(255, 255, 255,0.1);
-    color: rgb(255, 255, 255,0.6);
-    border-radius: 25px;
-    text-align: center;
-    font-size: 4vh;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-}
-    #totalh p {
-        margin: 0;
-    }
-/*BookingForm*/
-
-#mainbooking{
-  
-  
-    width:100%;
-    height:100%;
-    display:flex;
-    position:fixed;
-   justify-content:center;
-    flex-direction:row;
-  
-  
-  
-    
-}
-#mainform {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    backdrop-filter: blur(3px);
-
-}
-#centerform {
-    width: 40%;
-    display: flex;
-    margin-top: 5%;
-    height: 60%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), url(../image/formback.jpg) no-repeat center center fixed;
-    -webkit-background-size: 40%;
-    -moz-background-size: 50%;
-    -o-background-size: 40%;
-    background-size: 50%;
-    border-radius: 25px;
-    flex-direction: column;
-    box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-}
-
-#leftform {
-    width: 100%;
-    height: 100%;
-  
-}
-#rightform {
-    width: 100%;
-    height: 100%;
-    padding: 1%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    font-size: 130%;
-    color:whitesmoke;
-}
-#trainer-cardrf {
-    display:flex;
-   width:100%;
-   height:100%;
-   border:solid 1px;
- 
-}
-#profileimgtrrt {
-    width: 100%;
-    height: 50%;
-    align-content: center;
-    text-align: center;
-    flex-direction: column;
-}
-#trdeatails {
-    text-align: center;
-}
-#profileimgtrrt img {
-    width: 100%;
-    height: 100%
-}
-#bookingform {
-    width: 80%;
-    height: 100%;
-    text-align:center;
-    align-content:center;
-  flex-direction:column;
-    display:flex;
-    justify-content:center;
-      align-self:center;
-      margin-left:20%;
-  
-   
-}
-#formtitle{
-    display:flex;
-    width:100%;
-    height:fit-content;
-    justify-content:center;
-    color:whitesmoke;
-    padding-top:0.5%;
-    
-}
- .form-group select {
-    font-size: 200%;
-    text-align: center;
-}
-.form-group label {
-    font-size: 150%;
-    height:fit-content;
-    color:whitesmoke;
-}
-.form-group {
-    text-align:center;
-}
-#subformbut {
-    width: 80%;
-    height: 60%;
-    margin-top: 10%;
-    padding: 3%;
-    background-color: rgba(229,128,50,255);
-    border: none;
-    border-radius: 10px;
-    font-size:170%;
-}
-
-    #subformbut:hover{
-        transform:scale(0.9);
+    #btn2-div h3 {
+        border-bottom: solid 1px;
+        color: rgba(229,128,50,1);
+        width: fit-content;
     }
 
-#duration {
-   border-radius: 10px;
-}
-/*TrainerRegister*/
-#tregm {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    position: fixed;
-    justify-content: center;
-    align-content: center;
-    
-}
-#main-formtr {
-    width: 30%;
-    height: 50%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), url(../image/formback.jpg) no-repeat center center fixed;
-    -webkit-background-size: 40%;
-    -moz-background-size: 50%;
-    -o-background-size: 40%;
-    background-size: 50%;
-    padding: 2vh;
-    border-radius: 25px;
-    display: flex;
-    font-size: 150%;
-    justify-content: center;
-    color:whitesmoke;
-}
-#contentform {
-    width: 70%;
-    text-align: center;
-   justify-content:center;
-    
-}
-/*TrainerDashboard*/
-#trainerD {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    position: fixed;
-}
-#calendarS{
-    width:50%;
-}
+    #btn2-div table th {
+        font-weight: 500;
+        font-size: 4vh;
+        border-bottom: solid 1px
+    }
+
+    #btn2-div table td {
+        font-weight: 500;
+        font-size: 3vh;
+    }
+
+    #btn3-div h3 {
+        border-bottom: solid 1px;
+        color: rgba(229,128,50,1);
+    }
+
+    #mainbnt3 {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+
+    #mainbnt3-left {
+        display: flex;
+        width: 50%;
+        height: 100%;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    #mainbnt3-right {
+        display: flex;
+        width: 50%;
+        height: 100%;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    #totaltr {
+        width: 70%;
+        height: 30%;
+        background-color: rgb(255, 255, 255,0.1);
+        border-radius: 25px;
+        text-align: center;
+        color: rgb(255, 255, 255,0.6);
+        font-size: 4vh;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+
+        #totaltr p {
+            margin: 0;
+        }
+
+    #totalh {
+        width: 70%;
+        height: 30%;
+        background-color: rgb(255, 255, 255,0.1);
+        color: rgb(255, 255, 255,0.6);
+        border-radius: 25px;
+        text-align: center;
+        font-size: 4vh;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+
+        #totalh p {
+            margin: 0;
+        }
+    /*BookingForm*/
+
+    #mainbooking {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: fixed;
+        justify-content: center;
+        flex-direction: row;
+    }
+
+    #mainform {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        backdrop-filter: blur(3px);
+    }
+
+    #centerform {
+        width: 40%;
+        display: flex;
+        margin-top: 5%;
+        height: 60%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), url(../image/formback.jpg) no-repeat center center fixed;
+        -webkit-background-size: 40%;
+        -moz-background-size: 50%;
+        -o-background-size: 40%;
+        background-size: 50%;
+        border-radius: 25px;
+        flex-direction: column;
+        box-shadow: rgba(0, 0, 0, 0.7) 0px 5px 10px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    }
+
+    #leftform {
+        width: 100%;
+        height: 100%;
+    }
+
+    #rightform {
+        width: 100%;
+        height: 100%;
+        padding: 1%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        font-size: 130%;
+        color: whitesmoke;
+    }
+
+    #trainer-cardrf {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border: solid 1px;
+    }
+
+    #profileimgtrrt {
+        width: 100%;
+        height: 50%;
+        align-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+
+    #trdeatails {
+        text-align: center;
+    }
+
+    #profileimgtrrt img {
+        width: 100%;
+        height: 100%
+    }
+
+    #bookingform {
+        width: 80%;
+        height: 100%;
+        text-align: center;
+        align-content: center;
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        align-self: center;
+        margin-left: 20%;
+    }
+
+    #formtitle {
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        justify-content: center;
+        color: whitesmoke;
+        padding-top: 0.5%;
+    }
+
+    .form-group select {
+        font-size: 200%;
+        text-align: center;
+    }
+
+    .form-group label {
+        font-size: 150%;
+        height: fit-content;
+        color: whitesmoke;
+    }
+
+    .form-group {
+        text-align: center;
+    }
+
+    #subformbut {
+        width: 80%;
+        height: 60%;
+        margin-top: 10%;
+        padding: 3%;
+        background-color: rgba(229,128,50,255);
+        border: none;
+        border-radius: 10px;
+        font-size: 170%;
+    }
+
+        #subformbut:hover {
+            transform: scale(0.9);
+        }
+
+    #duration {
+        border-radius: 10px;
+    }
+    /*TrainerRegister*/
+    #tregm {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: fixed;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #main-formtr {
+        width: 30%;
+        height: 50%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), url(../image/formback.jpg) no-repeat center center fixed;
+        -webkit-background-size: 40%;
+        -moz-background-size: 50%;
+        -o-background-size: 40%;
+        background-size: 50%;
+        padding: 2vh;
+        border-radius: 25px;
+        display: flex;
+        font-size: 150%;
+        justify-content: center;
+        color: whitesmoke;
+    }
+
+    #contentform {
+        width: 70%;
+        text-align: center;
+        justify-content: center;
+    }
+    /*TrainerDashboard*/
+    #trainerD {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: fixed;
+    }
+
+    #calendarS {
+        width: 50%;
+    }
